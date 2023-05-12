@@ -12,8 +12,17 @@ import { useFonts } from "expo-font";
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [listings, setListings] = useState([
+    { location: "../assets/images/foodBowl.png" },
+    { location: "../assets/images/foodBowl.png" },
+    { location: "../assets/images/foodBowl.png" },
+    { location: "../assets/images/foodBowl.png" },
+    { location: "../assets/images/foodBowl.png" },
+    { location: "../assets/images/foodBowl.png" },
+    { location: "../assets/images/foodBowl.png" },
+  ]);
 
-  const [fontsLoaded] = useFonts({
+  const fontsLoaded = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
     RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
     MontserratMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
@@ -30,7 +39,7 @@ const Home = () => {
         <View style={styles.intro}>
           <Text
             style={{ marginLeft: "10%", fontFamily: "OpenSans", fontSize: 30 }}>
-            Good Morning, Burmy
+            Good Morning, Anmol
           </Text>
         </View>
         <View style={styles.filterContainer}>
@@ -46,33 +55,50 @@ const Home = () => {
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.listing}>
-          <View style={styles.visual}>
-            <Image
-              source={require("../assets/images/foodBowl.png")}
-              style={styles.image}></Image>
-            <View styles={{ position: "absolute", marginTop: 16 }}>
-              <Text>4.4</Text>
-            </View>
-          </View>
-          <View style={styles.description}>
-            <Text style={{ fontFamily: "OpenSans", fontSize: 26 }}>
-              Food Bowl
-            </Text>
-            <Text style={{ fontFamily: "OpenSans", fontSize: 18 }}>
-              Size: Diameter 15cm
-            </Text>
+        {listings.map((element, index) => {
+          console.log(element);
+          return (
             <View>
-              <Text>$120</Text>
+              <Text>{element.location}</Text>
+              <View style={styles.listing}>
+                <View style={styles.visual}>
+                  <Image
+                    source={require("../assets/images/foodBowl.png")}
+                    style={{
+                      height: 150,
+                      width: 150,
+                      borderRadius: 15,
+                    }}></Image>
+                </View>
+                <View style={styles.rating}>
+                  <Text>4.4</Text>
+                </View>
+                <View style={styles.description}>
+                  <View style={{ marginBottom: 30 }}>
+                    <Text
+                      style={{
+                        fontFamily: "OpenSans",
+                        fontSize: 25,
+                        fontWeight: "600",
+                      }}>
+                      Bowl with Food
+                    </Text>
+                    <Text style={{ fontFamily: "OpenSans", fontSize: 18 }}>
+                      Size: Medium
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{ fontFamily: "OpenSans", fontWeight: "bold" }}>
+                      $ 120
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.hr}></View>
             </View>
-          </View>
-        </View>
-        <View
-          style={{
-            borderBottomColor: "black",
-            borderBottomWidth: StyleSheet.hairlineWidth,
-          }}
-        />
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -121,14 +147,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   content: {
-    height: "80%",
-    widht: "100%",
     alignItems: "center",
-  },
-  image: {
-    height: 150,
-    width: 150,
-    borderRadius: 15,
   },
   listing: {
     width: "100%",
@@ -137,10 +156,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  // visual: {
-  //   width: "40%",
-  // },
-  // description: {
-  //   width: "60%",
-  // },
+  visual: {
+    width: "20%",
+  },
+  hr: {
+    width: "85%",
+    height: 1.5,
+    backgroundColor: "#BFBFBF",
+  },
+  rating: {
+    width: 35,
+    height: 20,
+    backgroundColor: "#FCD08E",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderColor: "black",
+    borderWidth: 0.5,
+  },
+  description: {
+    width: "50%",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+  },
 });
