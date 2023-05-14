@@ -9,17 +9,46 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const [search, setSearch] = useState("");
   const [listings, setListings] = useState([
-    { location: "../assets/images/foodBowl.png" },
-    { location: "../assets/images/foodBowl.png" },
-    { location: "../assets/images/foodBowl.png" },
-    { location: "../assets/images/foodBowl.png" },
-    { location: "../assets/images/foodBowl.png" },
-    { location: "../assets/images/foodBowl.png" },
-    { location: "../assets/images/foodBowl.png" },
+    {
+      src: require("../assets/images/foodBowl.png"),
+      description: "Bowl with food",
+      size: "Medium",
+      rating: 4.4,
+      price: 120,
+    },
+    {
+      src: require("../assets/images/foodBowl.png"),
+      description: "Bowl with food",
+      size: "Medium",
+      rating: 4.4,
+      price: 120,
+    },
+    {
+      src: require("../assets/images/foodBowl.png"),
+      description: "Bowl with food",
+      size: "Medium",
+      rating: 4.4,
+      price: 120,
+    },
+    {
+      src: require("../assets/images/foodBowl.png"),
+      description: "Bowl with food",
+      size: "Medium",
+      rating: 4.4,
+      price: 120,
+    },
+    {
+      src: require("../assets/images/foodBowl.png"),
+      description: "Bowl with food",
+      size: "Medium",
+      rating: 4.4,
+      price: 120,
+    },
   ]);
 
   const fontsLoaded = useFonts({
@@ -52,26 +81,51 @@ const Home = () => {
               <Text style={styles.filterOptions}>Rated 4+</Text>
             </TouchableOpacity>
           </View>
+          <View style={[styles.filter, styles.shadowProp]}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                console.log("Hello");
+              }}>
+              <Text style={styles.filterOptions}>Rated 4+</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.filter, styles.shadowProp]}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                console.log("Hello");
+              }}>
+              <Text style={styles.filterOptions}>Rated 4+</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.filter, styles.shadowProp]}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                console.log("Hello");
+              }}>
+              <Text style={styles.filterOptions}>Rated 4+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.content}>
         {listings.map((element, index) => {
-          console.log(element);
           return (
-            <View>
-              <Text>{element.location}</Text>
+            <View key={index}>
               <View style={styles.listing}>
                 <View style={styles.visual}>
                   <Image
-                    source={require("../assets/images/foodBowl.png")}
+                    source={element.src}
                     style={{
                       height: 150,
                       width: 150,
                       borderRadius: 15,
                     }}></Image>
-                </View>
-                <View style={styles.rating}>
-                  <Text>4.4</Text>
+                  <View style={styles.rating}>
+                    <Text>{element.rating}</Text>
+                  </View>
                 </View>
                 <View style={styles.description}>
                   <View style={{ marginBottom: 30 }}>
@@ -81,16 +135,16 @@ const Home = () => {
                         fontSize: 25,
                         fontWeight: "600",
                       }}>
-                      Bowl with Food
+                      {element.description}
                     </Text>
                     <Text style={{ fontFamily: "OpenSans", fontSize: 18 }}>
-                      Size: Medium
+                      Size: {element.size}
                     </Text>
                   </View>
                   <View>
                     <Text
                       style={{ fontFamily: "OpenSans", fontWeight: "bold" }}>
-                      $ 120
+                      ${element.price}
                     </Text>
                   </View>
                 </View>
@@ -100,6 +154,7 @@ const Home = () => {
           );
         })}
       </ScrollView>
+      <Navbar></Navbar>
     </View>
   );
 };
@@ -123,9 +178,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   filterContainer: {
-    width: "100%",
     height: "40%",
     flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "flex-end",
   },
   filter: {
@@ -146,24 +201,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
-  content: {
-    alignItems: "center",
-  },
-  listing: {
-    width: "100%",
-    flexDirection: "row",
-    margin: "5%",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  visual: {
-    width: "20%",
-  },
-  hr: {
-    width: "85%",
-    height: 1.5,
-    backgroundColor: "#BFBFBF",
-  },
   rating: {
     width: 35,
     height: 20,
@@ -174,9 +211,26 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
   },
+  listing: {
+    width: "100%",
+    flexDirection: "row",
+    margin: "5%",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  visual: {
+    width: "40%",
+  },
   description: {
-    width: "50%",
+    width: "60%",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+  },
+  hr: {
+    marginLeft: "7.5%",
+    marginRight: "7.5%",
+    width: "85%",
+    height: 1.5,
+    backgroundColor: "#BFBFBF",
   },
 });

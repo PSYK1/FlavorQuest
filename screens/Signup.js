@@ -9,11 +9,14 @@ import {
   Image,
 } from "react-native";
 import { useFonts } from "expo-font";
+import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default function Signup() {
+  const navigation = useNavigation();
+
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
     RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
@@ -53,12 +56,16 @@ export default function Signup() {
         <View style={styles.buttons}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log("Hello")}>
+            onPress={() => {
+              navigation.navigate("OnSignup");
+            }}>
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.link}
-            onPress={() => console.log("Hello")}>
+            onPress={() => {
+              navigation.navigate("Login");
+            }}>
             <Text
               style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>
               Back to login
