@@ -1,4 +1,4 @@
 # FlavorQuest
-To run
-npm install
+To run use: \n
+npm install \n
 npm start
