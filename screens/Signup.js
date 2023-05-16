@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -27,6 +28,15 @@ export default function Signup() {
   if (!fontsLoaded) {
     return undefined;
   }
+
+  let foods = [
+    { loc: require("../assets/images/pancake.png"), like: 0 },
+    { loc: require("../assets/images/pancake.png"), like: 0 },
+    { loc: require("../assets/images/pancake.png"), like: 0 },
+    { loc: require("../assets/images/pancake.png"), like: 0 },
+    { loc: require("../assets/images/pancake.png"), like: 0 },
+    { loc: require("../assets/images/pancake.png"), like: 0 },
+  ];
 
   return (
     <View style={styles.container}>
@@ -57,17 +67,23 @@ export default function Signup() {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              navigation.navigate("OnSignup");
-            }}>
+              navigation.navigate("OnSignup", {
+                likeDislikeList: foods,
+                index: 0,
+              });
+            }}
+          >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.link}
             onPress={() => {
               navigation.navigate("Login");
-            }}>
+            }}
+          >
             <Text
-              style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>
+              style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}
+            >
               Back to login
             </Text>
           </TouchableOpacity>

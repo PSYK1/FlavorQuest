@@ -1,15 +1,10 @@
 import { StyleSheet, Text, View, Image } from "react-native";
+import SwipeScreen from "./SwipeScreen";
 
-export default function OnSignup() {
-  const foods = [{ src: require("../assets/images/pancake.png") }];
-  let likes = [0, 0, 0, 0, 0, 0, 0];
-
+export default function OnSignup({ route }) {
+  const { likeDislikeList, index } = route.params;
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require("../assets/images/pancake.png")}></Image>
-    </View>
+    <SwipeScreen likeDislikeList={likeDislikeList} index={index}></SwipeScreen>
   );
 }
 
