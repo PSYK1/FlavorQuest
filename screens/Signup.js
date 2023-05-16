@@ -11,12 +11,18 @@ import {
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import foods from "../assets/jsData/foods";
+import { FIREBASE_AUTH } from "../firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default function Signup() {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [username, setUsername] = useState("");
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
@@ -48,20 +54,47 @@ export default function Signup() {
         </View>
       </View>
       <View style={styles.input}>
-        <TextInput style={styles.field} placeholder="Username"></TextInput>
-        <TextInput style={styles.field} placeholder="Email"></TextInput>
-        <TextInput style={styles.field} placeholder="PhoneNumber"></TextInput>
-        <TextInput style={styles.field} placeholder="Password"></TextInput>
+        <TextInput
+          style={styles.field}
+          placeholder="Username"
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+        ></TextInput>
+        <TextInput
+          style={styles.field}
+          placeholder="Email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        ></TextInput>
+        <TextInput
+          style={styles.field}
+          placeholder="PhoneNumber"
+          value={phoneNumber}
+          onChangeText={(text) => setPhoneNumber(text)}
+        ></TextInput>
+        <TextInput
+          style={styles.field}
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        ></TextInput>
       </View>
       <View style={styles.circle}>
         <View style={styles.buttons}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              navigation.navigate("OnSignup", {
-                likeDislikeList: foods,
-                index: 0,
-              });
+              createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+                .then((userCredential) => {
+                  console.log(userCredential);
+                  navigation.navigate("OnSignup", {
+                    likeDislikeList: foods,
+                    index: 0,
+                  });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             }}
           >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>

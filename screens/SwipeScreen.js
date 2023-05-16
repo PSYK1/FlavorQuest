@@ -19,6 +19,7 @@ export default function SwipeScreen({ likeDislikeList, index }) {
                 index: index + 1,
               });
             }
+            console.log(likeDislikeList);
           }}
         >
           <Image source={require("../assets/images/thumbsDown.png")}></Image>

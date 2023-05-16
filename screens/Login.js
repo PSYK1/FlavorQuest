@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import React, { useState } from "react";
+import { FIREBASE_AUTH } from "../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const height = Dimensions.get("window").height;
 
@@ -50,40 +52,54 @@ export default function Login({ navigation }) {
           style={styles.field}
           placeholder="Eamil"
           value={email}
-          onChangeText={(text) => setEmail(text)}></TextInput>
+          onChangeText={(text) => setEmail(text)}
+        ></TextInput>
         <TextInput
           style={styles.field}
           placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
-          secureTextEntry></TextInput>
+          secureTextEntry
+        ></TextInput>
       </View>
       <View style={styles.circle}>
         <View style={styles.buttons}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              navigation.navigate("Home");
-            }}>
+              signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+                .then((userCredential) => {
+                  console.log(userCredential);
+                  navigation.navigate("Home");
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }}
+          >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log("Hello")}>
+            onPress={() => console.log("Hello")}
+          >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Face ID</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
               navigation.navigate("Signup");
-            }}>
+            }}
+          >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.link}
-            onPress={() => console.log("Hello")}>
+            onPress={() => console.log("Hello")}
+          >
             <Text
-              style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>
+              style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}
+            >
               Forgot email or password?
             </Text>
           </TouchableOpacity>
