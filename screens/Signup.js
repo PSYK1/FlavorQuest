@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import foods from "../assets/jsData/foods";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -28,15 +28,6 @@ export default function Signup() {
   if (!fontsLoaded) {
     return undefined;
   }
-
-  let foods = [
-    { loc: require("../assets/images/pancake.png"), like: 0 },
-    { loc: require("../assets/images/pancake.png"), like: 0 },
-    { loc: require("../assets/images/pancake.png"), like: 0 },
-    { loc: require("../assets/images/pancake.png"), like: 0 },
-    { loc: require("../assets/images/pancake.png"), like: 0 },
-    { loc: require("../assets/images/pancake.png"), like: 0 },
-  ];
 
   return (
     <View style={styles.container}>

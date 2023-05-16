@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import SwipeScreen from "./SwipeScreen";
 
 export default function OnSignup({ route }) {
