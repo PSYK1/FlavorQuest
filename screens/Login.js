@@ -17,6 +17,10 @@ const height = Dimensions.get("window").height;
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [wrongInfo, setWrongInfo] = useState(false);
+
+  const [emptyEmail, setEmptyEmail] = useState(false);
+  const [emptyPassword, setEmptyPassword] = useState(false);
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
@@ -54,6 +58,8 @@ export default function Login({ navigation }) {
           value={email}
           onChangeText={(text) => setEmail(text)}
         ></TextInput>
+        {!emptyEmail && <Text></Text>}
+        {emptyEmail && <Text style={styles.error}>Empty Email</Text>}
         <TextInput
           style={styles.field}
           placeholder="Password"
@@ -61,6 +67,12 @@ export default function Login({ navigation }) {
           onChangeText={(text) => setPassword(text)}
           secureTextEntry
         ></TextInput>
+        {!emptyPassword && <Text></Text>}
+        {emptyPassword && <Text style={styles.error}>Empty Password</Text>}
+        {!wrongInfo && <Text></Text>}
+        {wrongInfo && (
+          <Text style={styles.error}>Incorrect Username/Password</Text>
+        )}
       </View>
       <View style={styles.circle}>
         <View style={styles.buttons}>
@@ -69,11 +81,23 @@ export default function Login({ navigation }) {
             onPress={() => {
               signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
                 .then((userCredential) => {
-                  console.log(userCredential);
-                  navigation.navigate("Home");
+                  // console.log(userCredential);
+                  navigation.navigate("Restaurants");
                 })
                 .catch((error) => {
-                  console.log(error);
+                  if (email === "") {
+                    setEmptyEmail(true);
+                  } else {
+                    setEmptyEmail(false);
+                  }
+                  if (password === "") {
+                    setEmptyPassword(true);
+                  } else {
+                    setEmptyPassword(false);
+                  }
+                  if (!(email === "") && !(password === "")) {
+                    setWrongInfo(true);
+                  }
                 });
             }}
           >
@@ -125,7 +149,7 @@ const styles = StyleSheet.create({
   },
   headerTop: {
     alignItems: "center",
-    marginTop: "5%",
+    marginTop: "10%",
   },
   headerBot: {
     alignItems: "center",
@@ -174,5 +198,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "45%",
+  },
+  error: {
+    color: "red",
   },
 });

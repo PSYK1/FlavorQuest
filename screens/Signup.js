@@ -12,7 +12,7 @@ import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import foods from "../assets/jsData/foods";
 import { FIREBASE_AUTH } from "../firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -21,7 +21,7 @@ export default function Signup() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
 
   const [fontsLoaded] = useFonts({
@@ -69,8 +69,8 @@ export default function Signup() {
         <TextInput
           style={styles.field}
           placeholder="PhoneNumber"
-          value={phoneNumber}
-          onChangeText={(text) => setPhoneNumber(text)}
+          value={phone}
+          onChangeText={(text) => setPhone(text)}
         ></TextInput>
         <TextInput
           style={styles.field}
@@ -86,11 +86,31 @@ export default function Signup() {
             onPress={() => {
               createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
                 .then((userCredential) => {
-                  console.log(userCredential);
-                  navigation.navigate("OnSignup", {
-                    likeDislikeList: foods,
-                    index: 0,
-                  });
+                  updateProfile(FIREBASE_AUTH.currentUser, {
+                    displayName: username,
+                  })
+                    .then(() => {
+                      updateProfile(FIREBASE_AUTH.currentUser, {
+                        photoURL:
+                          "https://i.pinimg.com/originals/0a/53/c3/0a53c3bbe2f56a1ddac34ea04a26be98.jpg",
+                      })
+                        .then(() => {
+                          updateProfile(FIREBASE_AUTH.currentUser, {
+                            phoneNumber: phone,
+                          })
+                            .then(() => {
+                              navigation.navigate("OnSignup", {
+                                likeDislikeList: foods,
+                                index: 0,
+                              });
+                            })
+                            .catch();
+                        })
+                        .catch();
+                    })
+                    .catcn((error) => {
+                      console.log(error);
+                    });
                 })
                 .catch((error) => {
                   console.log(error);
@@ -133,7 +153,7 @@ const styles = StyleSheet.create({
   },
   headerTop: {
     alignItems: "center",
-    marginTop: "5%",
+    marginTop: "10%",
   },
   headerBot: {
     alignItems: "center",
