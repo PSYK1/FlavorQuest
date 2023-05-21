@@ -28,7 +28,7 @@ export default function SwipeScreen({ likeDislikeList, index }) {
           onPress={() => {
             likeDislikeList[index].like = 1;
             if (index === likeDislikeList.length - 1) {
-              navigation.navigate("Home");
+              navigation.navigate("Cooking");
             } else {
               navigation.navigate("OnSignup", {
                 likeDislikeList: likeDislikeList,

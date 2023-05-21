@@ -4,8 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
-import Home from "./screens/Home";
 import OnSignup from "./screens/OnSignup";
+import Cooking from "./screens/Cooking";
+import Restaurants from "./screens/Restaurants";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,8 +31,13 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Home"
-          component={Home}
+          name="Cooking"
+          component={Cooking}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Restaurants"
+          component={Restaurants}
         />
       </Stack.Navigator>
     </NavigationContainer>

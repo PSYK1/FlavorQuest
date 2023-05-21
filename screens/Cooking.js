@@ -10,8 +10,9 @@ import {
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import Navbar from "./Navbar";
+import { FIREBASE_AUTH } from "../firebaseConfig";
 
-const Home = () => {
+export default function Home() {
   const [search, setSearch] = useState("");
   const [listings, setListings] = useState([
     {
@@ -67,8 +68,9 @@ const Home = () => {
       <View style={styles.square}>
         <View style={styles.intro}>
           <Text
-            style={{ marginLeft: "10%", fontFamily: "OpenSans", fontSize: 30 }}>
-            Good Morning, Anmol
+            style={{ marginLeft: "10%", fontFamily: "OpenSans", fontSize: 30 }}
+          >
+            Good Morning, {FIREBASE_AUTH.currentUser.displayName}
           </Text>
         </View>
         <View style={styles.filterContainer}>
@@ -77,7 +79,8 @@ const Home = () => {
               style={styles.button}
               onPress={() => {
                 console.log("Hello");
-              }}>
+              }}
+            >
               <Text style={styles.filterOptions}>Rated 4+</Text>
             </TouchableOpacity>
           </View>
@@ -86,7 +89,8 @@ const Home = () => {
               style={styles.button}
               onPress={() => {
                 console.log("Hello");
-              }}>
+              }}
+            >
               <Text style={styles.filterOptions}>Rated 4+</Text>
             </TouchableOpacity>
           </View>
@@ -95,7 +99,8 @@ const Home = () => {
               style={styles.button}
               onPress={() => {
                 console.log("Hello");
-              }}>
+              }}
+            >
               <Text style={styles.filterOptions}>Rated 4+</Text>
             </TouchableOpacity>
           </View>
@@ -104,7 +109,8 @@ const Home = () => {
               style={styles.button}
               onPress={() => {
                 console.log("Hello");
-              }}>
+              }}
+            >
               <Text style={styles.filterOptions}>Rated 4+</Text>
             </TouchableOpacity>
           </View>
@@ -122,7 +128,8 @@ const Home = () => {
                       height: 150,
                       width: 150,
                       borderRadius: 15,
-                    }}></Image>
+                    }}
+                  ></Image>
                   <View style={styles.rating}>
                     <Text>{element.rating}</Text>
                   </View>
@@ -134,7 +141,8 @@ const Home = () => {
                         fontFamily: "OpenSans",
                         fontSize: 25,
                         fontWeight: "600",
-                      }}>
+                      }}
+                    >
                       {element.description}
                     </Text>
                     <Text style={{ fontFamily: "OpenSans", fontSize: 18 }}>
@@ -143,7 +151,8 @@ const Home = () => {
                   </View>
                   <View>
                     <Text
-                      style={{ fontFamily: "OpenSans", fontWeight: "bold" }}>
+                      style={{ fontFamily: "OpenSans", fontWeight: "bold" }}
+                    >
                       ${element.price}
                     </Text>
                   </View>
@@ -157,9 +166,7 @@ const Home = () => {
       <Navbar></Navbar>
     </View>
   );
-};
-
-export default Home;
+}
 
 const styles = StyleSheet.create({
   container: {
