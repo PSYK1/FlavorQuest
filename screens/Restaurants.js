@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect } from "react";
-import { FIREBASE_AUTH } from "../firebaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 import * as Location from "expo-location";
 
@@ -8,18 +9,17 @@ import Navbar from "./Navbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Restaurants() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [radius, setRadius] = useState(30);
-
   const numOfRestaurants = 50;
 
-  const [restaurantName, setRestaurantName] = useState("");
-  const [restaurantImage, setRestaurantImage] = useState("");
-  const [restaurantRating, setRestaurantRating] = useState(0);
-  const [restaurantPrice, setRestaurantPrice] = useState("");
+  const [listing, setListing] = useState({
+    name: "",
+    image: "",
+    rating: 0,
+    price: "",
+  });
 
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
+  // const [userLikes, setUserLikes] = useState("american");
 
   const yelpBaseURL = "https://api.yelp.com/v3/businesses/search?";
   const yelpAccessToken =
@@ -27,21 +27,28 @@ export default function Restaurants() {
 
   const reroll = () => {
     let rand = Math.floor(Math.random() * 40);
-    setRestaurantName(nearbyRestaurants[rand].name);
-    setRestaurantImage(nearbyRestaurants[rand].image_url);
-    setRestaurantRating(nearbyRestaurants[rand].rating);
-    setRestaurantPrice(nearbyRestaurants[rand].price);
+    setListing({
+      name: nearbyRestaurants[rand].name,
+      image: nearbyRestaurants[rand].image_url,
+      rating: nearbyRestaurants[rand].rating,
+      price: nearbyRestaurants[rand].price,
+    });
   };
 
   useEffect(() => {
+    const docRef = doc(
+      FIREBASE_DB,
+      "likesDislikes",
+      FIREBASE_AUTH.currentUser.email
+    );
+
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        console.log("Permission to access location was denied");
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
       const options = {
         method: "GET",
         headers: {
@@ -49,23 +56,44 @@ export default function Restaurants() {
           Authorization: `Bearer ${yelpAccessToken}`,
         },
       };
-      fetch(
-        `${yelpBaseURL}latitude=${location.coords.latitude}&longitude=${
-          location.coords.longitude
-        }&radius=${40000}&limit=${numOfRestaurants}`,
-        options
-      )
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response.businesses);
-          setNearbyRestaurants(response.businesses);
-          let rand = Math.floor(Math.random() * 40);
-          setRestaurantName(response.businesses[rand].name);
-          setRestaurantImage(response.businesses[rand].image_url);
-          setRestaurantRating(response.businesses[rand].rating);
-          setRestaurantPrice(response.businesses[rand].price);
+
+      getDoc(docRef)
+        .then((snap) => {
+          let value = "";
+          let arr = snap.data().likes;
+          for (let i in arr) {
+            if (i == arr.length - 1) {
+              value += arr[i];
+            } else {
+              value += arr[i] + ",";
+            }
+          }
+          return value.toLowerCase();
         })
-        .catch((err) => console.log(err));
+        .then((userLikes) => {
+          console.log(userLikes);
+          fetch(
+            `${yelpBaseURL}latitude=${location.coords.latitude}&longitude=${
+              location.coords.longitude
+            }&radius=${40000}&limit=${numOfRestaurants}&categories=${userLikes}`,
+            options
+          )
+            .then((response) => response.json())
+            .then((response) => {
+              buisinessesCustomerWillLike = setNearbyRestaurants(
+                response.businesses
+              );
+              let rand = Math.floor(Math.random() * 40);
+              setListing({
+                name: response.businesses[rand].name,
+                image: response.businesses[rand].image_url,
+                rating: response.businesses[rand].rating,
+                price: response.businesses[rand].price,
+              });
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((error) => console.log(error));
     })();
   }, []);
 
@@ -85,7 +113,7 @@ export default function Restaurants() {
         <View style={styles.listing}>
           <View style={styles.visual}>
             <Image
-              source={{ uri: restaurantImage }}
+              source={{ uri: listing.image }}
               style={{
                 height: 150,
                 width: 150,
@@ -93,7 +121,7 @@ export default function Restaurants() {
               }}
             ></Image>
             <View style={styles.rating}>
-              <Text>{restaurantRating}</Text>
+              <Text>{listing.rating}</Text>
             </View>
           </View>
           <View style={styles.description}>
@@ -105,12 +133,12 @@ export default function Restaurants() {
                   fontWeight: "600",
                 }}
               >
-                {restaurantName}
+                {listing.name}
               </Text>
             </View>
             <View>
               <Text style={{ fontFamily: "OpenSans", fontWeight: "bold" }}>
-                Price: {restaurantPrice}
+                Price: {listing.price}
               </Text>
             </View>
           </View>

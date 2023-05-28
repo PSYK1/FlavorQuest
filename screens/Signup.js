@@ -68,7 +68,7 @@ export default function Signup() {
         ></TextInput>
         <TextInput
           style={styles.field}
-          placeholder="PhoneNumber"
+          placeholder="Phone Number"
           value={phone}
           onChangeText={(text) => setPhone(text)}
         ></TextInput>
@@ -77,6 +77,7 @@ export default function Signup() {
           placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
+          secureTextEntry
         ></TextInput>
       </View>
       <View style={styles.circle}>
@@ -104,16 +105,20 @@ export default function Signup() {
                                 index: 0,
                               });
                             })
-                            .catch();
+                            .catch((error) => {
+                              console.log("Hello1" + error);
+                            });
                         })
-                        .catch();
+                        .catch((error) => {
+                          console.log("Hello2" + error);
+                        });
                     })
                     .catcn((error) => {
-                      console.log(error);
+                      console.log("Hello3" + error);
                     });
                 })
                 .catch((error) => {
-                  console.log(error);
+                  console.log("Hello4" + error);
                 });
             }}
           >
