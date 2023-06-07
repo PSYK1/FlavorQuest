@@ -24,13 +24,14 @@ export default function Navbar() {
       >
         <Image source={require("../assets/images/pan.png")}></Image>
       </TouchableOpacity>
+      {/*}
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("Home");
         }}
       >
         <Image source={require("../assets/images/heart.png")}></Image>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("Login");
