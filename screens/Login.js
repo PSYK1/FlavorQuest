@@ -1,16 +1,9 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, Image } from "react-native";
 import { useFonts } from "expo-font";
 import React, { useState } from "react";
 import { FIREBASE_AUTH } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Svg, Circle } from "react-native-svg";
 
 const height = Dimensions.get("window").height;
 
@@ -37,29 +30,20 @@ export default function Login({ navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerTop}>
-          <Image source={require("../assets/logo.png")} />
-          <Text style={{ fontFamily: "OpenSans", fontSize: 36 }}>
-            F l a v o r Q u e s t
-          </Text>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={require("../assets/logo.png")} />
+          </View>
+          <Text style={{ fontFamily: "OpenSans", fontSize: 36 }}>F l a v o r Q u e s t</Text>
         </View>
         <View style={styles.headerBot}>
-          <Text style={{ fontFamily: "RobotoBold", fontSize: 24, padding: 5 }}>
-            Start Your Quest
-          </Text>
-          <Text style={{ fontFamily: "Roboto", fontSize: 15, padding: 5 }}>
-            Make life a little easier
-          </Text>
+          <Text style={{ fontFamily: "RobotoBold", fontSize: 24, padding: 5 }}>Start Your Quest</Text>
+          <Text style={{ fontFamily: "Roboto", fontSize: 15, padding: 5 }}>Make life a little easier</Text>
         </View>
       </View>
       <View style={styles.input}>
-        <TextInput
-          style={styles.field}
-          placeholder="Eamil"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        ></TextInput>
+        <TextInput style={styles.field} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)}></TextInput>
         {!emptyEmail && <Text></Text>}
-        {emptyEmail && <Text style={styles.error}>Empty Email</Text>}
+        {emptyEmail && <Text style={styles.error}>✖ Empty Email</Text>}
         <TextInput
           style={styles.field}
           placeholder="Password"
@@ -68,13 +52,16 @@ export default function Login({ navigation }) {
           secureTextEntry
         ></TextInput>
         {!emptyPassword && <Text></Text>}
-        {emptyPassword && <Text style={styles.error}>Empty Password</Text>}
+        {emptyPassword && <Text style={styles.error}>✖ Empty Password</Text>}
         {!wrongInfo && <Text></Text>}
-        {wrongInfo && (
-          <Text style={styles.error}>Incorrect Username/Password</Text>
-        )}
+        {wrongInfo && <Text style={styles.error}>✖ Incorrect Username/Password</Text>}
       </View>
       <View style={styles.circle}>
+        <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
+          <Svg height="100%" width="100%" viewBox="0 -80 100 100">
+            <Circle cx="50" cy="100" r="180" stroke="black" strokeWidth="0" fill="black" />
+          </Svg>
+        </View>
         <View style={styles.buttons}>
           <TouchableOpacity
             style={styles.button}
@@ -103,10 +90,7 @@ export default function Login({ navigation }) {
           >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log("Hello")}
-          >
+          <TouchableOpacity style={styles.button} onPress={() => console.log("Hello")}>
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Face ID</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -117,15 +101,8 @@ export default function Login({ navigation }) {
           >
             <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.link}
-            onPress={() => console.log("Hello")}
-          >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}
-            >
-              Forgot email or password?
-            </Text>
+          <TouchableOpacity style={styles.link} onPress={() => console.log("Hello")}>
+            <Text style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>Forgot email or password?</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -151,42 +128,60 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "10%",
   },
+  imageContainer: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    flex: 1,
+    width: 400,
+    height: 200,
+    resizeMode: "contain",
+  },
   headerBot: {
     alignItems: "center",
     justifyContent: "center",
   },
   input: {
-    height: "30%",
+    height: "28%",
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   field: {
-    height: "18%",
-    width: "70%",
+    height: "21%",
+    width: "75%",
     paddingLeft: "2%",
     margin: "2%",
+    marginTop: "26px",
+    marginBottom: "0px",
     borderWidth: 1,
     borderRadius: 10,
+    // position: "relative",
   },
   circle: {
-    height: "33%",
-    width: "170%",
+    marginTop: "20px",
+    height: "35%",
+    width: "100%",
     alignItems: "center",
-    backgroundColor: "black",
-    borderTopLeftRadius: height * 2,
-    borderTopRightRadius: height * 2,
+    // backgroundColor: "black",
+    // borderTopLeftRadius: height * 2,
+    // borderTopRightRadius: height * 2,
   },
   buttons: {
-    width: "110%",
+    width: "100%",
     height: "33%",
     marginTop: 30,
+
     alignItems: "center",
   },
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: "25%",
+    width: "35%",
     height: "45%",
     borderRadius: 8,
     marginTop: 10,
@@ -201,5 +196,7 @@ const styles = StyleSheet.create({
   },
   error: {
     color: "red",
+    height: "0px",
+    // position: "absolute",
   },
 });

@@ -1,19 +1,11 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import foods from "../assets/jsData/foods";
 import { FIREBASE_AUTH } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-
+import { Svg, Circle } from "react-native-svg";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -39,18 +31,14 @@ export default function Signup() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerTop}>
-          <Image source={require("../assets/logo.png")} />
-          <Text style={{ fontFamily: "OpenSans", fontSize: 36 }}>
-            F l a v o r Q u e s t
-          </Text>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={require("../assets/logo.png")} />
+          </View>
+          <Text style={{ fontFamily: "OpenSans", fontSize: 36 }}>F l a v o r Q u e s t</Text>
         </View>
         <View style={styles.headerBot}>
-          <Text style={{ fontFamily: "RobotoBold", fontSize: 24, padding: 5 }}>
-            Start Your Quest
-          </Text>
-          <Text style={{ fontFamily: "Roboto", fontSize: 15, padding: 5 }}>
-            Make life a little easier
-          </Text>
+          <Text style={{ fontFamily: "RobotoBold", fontSize: 24, padding: 5 }}>Start Your Quest</Text>
+          <Text style={{ fontFamily: "Roboto", fontSize: 15, padding: 5 }}>Make life a little easier</Text>
         </View>
       </View>
       <View style={styles.input}>
@@ -60,12 +48,7 @@ export default function Signup() {
           value={username}
           onChangeText={(text) => setUsername(text)}
         ></TextInput>
-        <TextInput
-          style={styles.field}
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        ></TextInput>
+        <TextInput style={styles.field} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)}></TextInput>
         <TextInput
           style={styles.field}
           placeholder="Phone Number"
@@ -81,6 +64,11 @@ export default function Signup() {
         ></TextInput>
       </View>
       <View style={styles.circle}>
+        <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
+          <Svg height="100%" width="100%" viewBox="0 -80 100 100">
+            <Circle cx="50" cy="100" r="180" stroke="black" strokeWidth="0" fill="black" />
+          </Svg>
+        </View>
         <View style={styles.buttons}>
           <TouchableOpacity
             style={styles.button}
@@ -92,8 +80,7 @@ export default function Signup() {
                   })
                     .then(() => {
                       updateProfile(FIREBASE_AUTH.currentUser, {
-                        photoURL:
-                          "https://i.pinimg.com/originals/0a/53/c3/0a53c3bbe2f56a1ddac34ea04a26be98.jpg",
+                        photoURL: "https://i.pinimg.com/originals/0a/53/c3/0a53c3bbe2f56a1ddac34ea04a26be98.jpg",
                       })
                         .then(() => {
                           updateProfile(FIREBASE_AUTH.currentUser, {
@@ -130,11 +117,7 @@ export default function Signup() {
               navigation.navigate("Login");
             }}
           >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}
-            >
-              Back to login
-            </Text>
+            <Text style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>Back to login</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -150,6 +133,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     width: "100%",
+    height: "100vh",
   },
   header: {
     height: "37%",
@@ -160,6 +144,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "10%",
   },
+  imageContainer: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    flex: 1,
+    width: 400,
+    height: 200,
+    resizeMode: "contain",
+  },
   headerBot: {
     alignItems: "center",
     justifyContent: "center",
@@ -168,7 +165,7 @@ const styles = StyleSheet.create({
     height: "40%",
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   field: {
     height: "15%",
@@ -179,12 +176,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   circle: {
-    height: "23%",
-    width: "140%",
+    marginTop: "20px",
+    height: "35%",
+    width: "100%",
     alignItems: "center",
-    backgroundColor: "black",
-    borderTopLeftRadius: height * 2,
-    borderTopRightRadius: height * 2,
+    // backgroundColor: "black",
+    // borderTopLeftRadius: height * 2,
+    // borderTopRightRadius: height * 2,
   },
   buttons: {
     width: "100%",
