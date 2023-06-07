@@ -6,16 +6,15 @@ import { doc, getDoc } from "firebase/firestore";
 import * as Location from "expo-location";
 
 import Navbar from "./Navbar";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Restaurants() {
   const numOfRestaurants = 50;
 
   const [listing, setListing] = useState({
-    name: "",
-    image: "",
+    name: "Loading",
+    image: "https://media.istockphoto.com/id/1335247217/vector/loading-icon-vector-illustration.jpg?s=612x612&w=0&k=20&c=jARr4Alv-d5U3bCa8eixuX2593e1rDiiWnvJLgHCkQM=",
     rating: 0,
-    price: "",
+    price: "...",
   });
 
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
@@ -73,9 +72,13 @@ export default function Restaurants() {
         .then((userLikes) => {
           console.log(userLikes);
           fetch(
+            // `${yelpBaseURL}latitude=${location.coords.latitude}&longitude=${
+            //   location.coords.longitude
+            // }&radius=${40000}&limit=${numOfRestaurants}&categories=chinese`,
+            // options
             `${yelpBaseURL}latitude=${location.coords.latitude}&longitude=${
               location.coords.longitude
-            }&radius=${40000}&limit=${numOfRestaurants}&categories=${userLikes}`,
+            }&radius=${40000}&limit=${numOfRestaurants}&categories=chinese`,
             options
           )
             .then((response) => response.json())
@@ -108,7 +111,6 @@ export default function Restaurants() {
           </Text>
         </View>
       </View>
-
       <View>
         <View style={styles.listing}>
           <View style={styles.visual}>
@@ -150,6 +152,7 @@ export default function Restaurants() {
           width: "100%",
           alignItems: "center",
           justifyContent: "center",
+          marginTop: -20,
         }}
       >
         <TouchableOpacity
@@ -228,7 +231,7 @@ const styles = StyleSheet.create({
     width: "40%",
   },
   description: {
-    width: "60%",
+    width: "50%",
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },
