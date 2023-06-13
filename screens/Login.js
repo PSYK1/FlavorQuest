@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
   }, [toggled]);
 
   return (
-    <View style={styles.cont}>
+    <View style={styles.container}>
       <View style={styles.circle}>
         <Animated.View
           style={{
@@ -46,16 +46,44 @@ export default function Login({ navigation }) {
             position: "absolute",
             height: height.interpolate({
               inputRange: [0, 2],
-              outputRange: ["250vh", "00vh"],
+              outputRange: ["200vh", "0vh"],
             }),
           }}
         >
-          {/* <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}> */}
-          <Svg max-width="100%" width="auto" max-height="100vh" height="auto" viewBox="0 0 100 100">
-            <Circle cx="50" cy="100" r="180" stroke="black" strokeWidth="0" fill="black" preserveAspectRatio="none" />
-          </Svg>
-          {/* </View> */}
+          <View style={styles.svgcircle}>
+            <Svg max-width="100%" width="auto" max-height="100vh" height="auto" viewBox="0 0 100 100">
+              <Circle cx="50" cy="100" r="180" stroke="black" strokeWidth="0" fill="black" />
+            </Svg>
+          </View>
         </Animated.View>
+      </View>
+      <View style={styles.header}>
+        <View style={styles.headerTop}>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={require("../assets/logo.png")} />
+          </View>
+          <Text style={{ fontFamily: "OpenSans", fontSize: 36 }}>F l a v o r Q u e s t</Text>
+        </View>
+        <View style={styles.headerBot}>
+          <Text style={{ fontFamily: "RobotoBold", fontSize: 24, padding: 5 }}>Start Your Quest</Text>
+          <Text style={{ fontFamily: "Roboto", fontSize: 15, padding: 5 }}>Make life a little easier</Text>
+        </View>
+      </View>
+      <View style={styles.input}>
+        <TextInput style={styles.field} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)}></TextInput>
+        {!emptyEmail && <Text></Text>}
+        {emptyEmail && <Text style={styles.error}>✖ Empty Email</Text>}
+        <TextInput
+          style={styles.field}
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry
+        ></TextInput>
+        {!emptyPassword && <Text></Text>}
+        {emptyPassword && <Text style={styles.error}>✖ Empty Password</Text>}
+        {!wrongInfo && <Text></Text>}
+        {wrongInfo && <Text style={styles.error}>✖ Incorrect Username/Password</Text>}
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity
@@ -107,10 +135,6 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  cont: {
-    // height: "100vh",
-    position: "relative",
-  },
   container: {
     margin: 0,
     padding: 0,
@@ -162,6 +186,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // position: "relative",
   },
+  svgcircle: {
+    height: "100%",
+  },
   circle: {
     // marginTop: "20px",
     height: "35px",
@@ -172,11 +199,10 @@ const styles = StyleSheet.create({
     // borderTopLeftRadius: height * 2,
     // borderTopRightRadius: height * 2,
   },
+
   buttons: {
     width: "100%",
-    height: "33%",
-    marginTop: 30,
-
+    height: 100,
     alignItems: "center",
   },
   button: {
