@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, Image } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, Image, Animated } from "react-native";
 import { useFonts } from "expo-font";
-import React, { useState } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { FIREBASE_AUTH } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Svg, Circle } from "react-native-svg";
@@ -15,102 +15,102 @@ export default function Login({ navigation }) {
   const [emptyEmail, setEmptyEmail] = useState(false);
   const [emptyPassword, setEmptyPassword] = useState(false);
 
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
-    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-    MontserratMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
-    OpenSans: require("../assets/fonts/OpenSans.ttf"),
-  });
+  let [toggled, setToggled] = useState(false);
+  const height = useRef(new Animated.Value(1)).current;
 
-  if (!fontsLoaded) {
-    return undefined;
-  }
+  // const [fontsLoaded] = useFonts({
+  //   Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
+  //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
+  //   MontserratMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
+  //   OpenSans: require("../assets/fonts/OpenSans.ttf"),
+  // });
+
+  // if (!fontsLoaded) {
+  //   return undefined;
+  // }
+
+  useEffect(() => {
+    Animated.timing(height, {
+      toValue: toggled ? 1 : 0,
+      duration: 400,
+    }).start();
+  }, [toggled]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerTop}>
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} source={require("../assets/logo.png")} />
-          </View>
-          <Text style={{ fontFamily: "OpenSans", fontSize: 36 }}>F l a v o r Q u e s t</Text>
-        </View>
-        <View style={styles.headerBot}>
-          <Text style={{ fontFamily: "RobotoBold", fontSize: 24, padding: 5 }}>Start Your Quest</Text>
-          <Text style={{ fontFamily: "Roboto", fontSize: 15, padding: 5 }}>Make life a little easier</Text>
-        </View>
-      </View>
-      <View style={styles.input}>
-        <TextInput style={styles.field} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)}></TextInput>
-        {!emptyEmail && <Text></Text>}
-        {emptyEmail && <Text style={styles.error}>✖ Empty Email</Text>}
-        <TextInput
-          style={styles.field}
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-        ></TextInput>
-        {!emptyPassword && <Text></Text>}
-        {emptyPassword && <Text style={styles.error}>✖ Empty Password</Text>}
-        {!wrongInfo && <Text></Text>}
-        {wrongInfo && <Text style={styles.error}>✖ Incorrect Username/Password</Text>}
-      </View>
+    <View style={styles.cont}>
       <View style={styles.circle}>
-        <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
-          <Svg height="100%" width="100%" viewBox="0 -80 100 100">
-            <Circle cx="50" cy="100" r="180" stroke="black" strokeWidth="0" fill="black" />
+        <Animated.View
+          style={{
+            elevation: 100,
+            zIndex: 100,
+            position: "absolute",
+            height: height.interpolate({
+              inputRange: [0, 2],
+              outputRange: ["250vh", "00vh"],
+            }),
+          }}
+        >
+          {/* <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}> */}
+          <Svg max-width="100%" width="auto" max-height="100vh" height="auto" viewBox="0 0 100 100">
+            <Circle cx="50" cy="100" r="180" stroke="black" strokeWidth="0" fill="black" preserveAspectRatio="none" />
           </Svg>
-        </View>
-        <View style={styles.buttons}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-                .then((userCredential) => {
-                  // console.log(userCredential);
-                  navigation.navigate("Restaurants");
-                })
-                .catch((error) => {
-                  if (email === "") {
-                    setEmptyEmail(true);
-                  } else {
-                    setEmptyEmail(false);
-                  }
-                  if (password === "") {
-                    setEmptyPassword(true);
-                  } else {
-                    setEmptyPassword(false);
-                  }
-                  if (!(email === "") && !(password === "")) {
-                    setWrongInfo(true);
-                  }
-                });
-            }}
-          >
-            <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => console.log("Hello")}>
-            <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Face ID</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate("Signup");
-            }}
-          >
-            <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.link} onPress={() => console.log("Hello")}>
-            <Text style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>Forgot email or password?</Text>
-          </TouchableOpacity>
-        </View>
+          {/* </View> */}
+        </Animated.View>
+      </View>
+      <View style={styles.buttons}>
+        <TouchableOpacity
+          style={styles.button}
+          // onPress={() => {
+          //   signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+          //     .then((userCredential) => {
+          //       // console.log(userCredential);
+          //       navigation.navigate("Restaurants");
+          //     })
+          //     .catch((error) => {
+          //       if (email === "") {
+          //         setEmptyEmail(true);
+          //       } else {
+          //         setEmptyEmail(false);
+          //       }
+          //       if (password === "") {
+          //         setEmptyPassword(true);
+          //       } else {
+          //         setEmptyPassword(false);
+          //       }
+          //       if (!(email === "") && !(password === "")) {
+          //         setWrongInfo(true);
+          //       }
+          //     });
+          // }}
+          onPress={() => setToggled((prev) => !prev)}
+        >
+          <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={() => console.log("Hello")}>
+          <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Face ID</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Signup");
+          }}
+        >
+          <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.link} onPress={() => console.log("Hello")}>
+          <Text style={{ fontFamily: "Roboto", fontSize: 15, color: "white" }}>Forgot email or password?</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  cont: {
+    // height: "100vh",
+    position: "relative",
+  },
   container: {
     margin: 0,
     padding: 0,
@@ -163,10 +163,11 @@ const styles = StyleSheet.create({
     // position: "relative",
   },
   circle: {
-    marginTop: "20px",
-    height: "35%",
+    // marginTop: "20px",
+    height: "35px",
     width: "100%",
     alignItems: "center",
+
     // backgroundColor: "black",
     // borderTopLeftRadius: height * 2,
     // borderTopRightRadius: height * 2,
