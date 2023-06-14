@@ -21,12 +21,12 @@ export default function Login({ navigation }) {
   let [toggled, setToggled] = useState(false);
   const height = useRef(new Animated.Value(1)).current;
 
-  // const [fontsLoaded] = useFonts({
-  //   Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
-  //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-  //   MontserratMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
-  //   OpenSans: require("../assets/fonts/OpenSans.ttf"),
-  // });
+  const [fontsLoaded] = useFonts({
+    Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
+    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
+    MontserratMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
+    OpenSans: require("../assets/fonts/OpenSans.ttf"),
+  });
 
   // if (!fontsLoaded) {
   //   return undefined;
@@ -35,9 +35,9 @@ export default function Login({ navigation }) {
   useEffect(() => {
     Animated.timing(height, {
       toValue: toggled ? 1 : 0,
-      duration: 400,
+      duration: 300,
     }).start();
-  }, [toggled]);
+  }, [toggled, fontsLoaded]);
 
   return (
     <View style={styles.container}>
@@ -89,31 +89,29 @@ export default function Login({ navigation }) {
       <View style={styles.buttons}>
         <TouchableOpacity
           style={styles.button}
-          // onPress={() => {
-          //   signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-          //     .then((userCredential) => {
-          //       // console.log(userCredential);
-          //       navigation.navigate("Restaurants");
-          //     })
-          //     .catch((error) => {
-          //       if (email === "") {
-          //         setEmptyEmail(true);
-          //       } else {
-          //         setEmptyEmail(false);
-          //       }
-          //       if (password === "") {
-          //         setEmptyPassword(true);
-          //       } else {
-          //         setEmptyPassword(false);
-          //       }
-          //       if (!(email === "") && !(password === "")) {
-          //         setWrongInfo(true);
-          //       }
-          //     });
-          // }}
           onPress={() => {
-            setToggled((prev) => !prev);
-            toggle();
+            signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+              .then((userCredential) => {
+                // console.log(userCredential);
+                setToggled((prev) => !prev);
+                toggle();
+                navigation.navigate("Restaurants");
+              })
+              .catch((error) => {
+                if (email === "") {
+                  setEmptyEmail(true);
+                } else {
+                  setEmptyEmail(false);
+                }
+                if (password === "") {
+                  setEmptyPassword(true);
+                } else {
+                  setEmptyPassword(false);
+                }
+                if (!(email === "") && !(password === "")) {
+                  setWrongInfo(true);
+                }
+              });
           }}
         >
           <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Login</Text>
