@@ -11,7 +11,10 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [wrongInfo, setWrongInfo] = useState(false);
-
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggle = () => {
+    setIsEnabled(!isEnabled);
+  };
   const [emptyEmail, setEmptyEmail] = useState(false);
   const [emptyPassword, setEmptyPassword] = useState(false);
 
@@ -38,15 +41,13 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.circle}>
+      <View style={[styles.circle, { zIndex: isEnabled ? 3 : 0 }]}>
         <Animated.View
           style={{
-            elevation: 100,
-            zIndex: 100,
             position: "absolute",
             height: height.interpolate({
               inputRange: [0, 2],
-              outputRange: ["200vh", "0vh"],
+              outputRange: ["250vh", "0vh"],
             }),
           }}
         >
@@ -110,7 +111,10 @@ export default function Login({ navigation }) {
           //       }
           //     });
           // }}
-          onPress={() => setToggled((prev) => !prev)}
+          onPress={() => {
+            setToggled((prev) => !prev);
+            toggle();
+          }}
         >
           <Text style={{ fontFamily: "Roboto", fontSize: 15 }}>Login</Text>
         </TouchableOpacity>
@@ -194,7 +198,8 @@ const styles = StyleSheet.create({
     height: "35px",
     width: "100%",
     alignItems: "center",
-
+    zIndex: 3,
+    elevation: 3,
     // backgroundColor: "black",
     // borderTopLeftRadius: height * 2,
     // borderTopRightRadius: height * 2,
