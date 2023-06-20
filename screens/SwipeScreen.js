@@ -25,17 +25,10 @@ export default function SwipeScreen({ likeDislikeList, index }) {
                   dislikes.push(likeDislikeList[i].categories);
                 }
               }
-              setDoc(
-                doc(
-                  FIREBASE_DB,
-                  "likesDislikes",
-                  FIREBASE_AUTH.currentUser.email
-                ),
-                {
-                  likes: likes,
-                  dislikes: dislikes,
-                }
-              );
+              setDoc(doc(FIREBASE_DB, "likesDislikes", FIREBASE_AUTH.currentUser.email), {
+                likes: likes,
+                dislikes: dislikes,
+              });
               navigation.navigate("Restaurants");
             } else {
               navigation.navigate("OnSignup", {
@@ -61,17 +54,10 @@ export default function SwipeScreen({ likeDislikeList, index }) {
                   dislikes.push(likeDislikeList[i].categories);
                 }
               }
-              setDoc(
-                doc(
-                  FIREBASE_DB,
-                  "likesDislikes",
-                  FIREBASE_AUTH.currentUser.email
-                ),
-                {
-                  likes: likes,
-                  dislikes: dislikes,
-                }
-              );
+              setDoc(doc(FIREBASE_DB, "likesDislikes", FIREBASE_AUTH.currentUser.email), {
+                likes: likes,
+                dislikes: dislikes,
+              });
               navigation.navigate("Restaurants");
             } else {
               navigation.navigate("OnSignup", {

@@ -1,4 +1,4 @@
-export default foods = [
+export const foods = [
   {
     loc: require("../images/american.webp"),
     like: 0,
@@ -13,3 +13,7 @@ export default foods = [
   { loc: require("../images/pancake.png"), like: 0, categories: "asturian" },
   { loc: require("../images/italian.webp"), like: 0, categories: "italian" },
 ];
+
+export default {
+  foods,
+};
