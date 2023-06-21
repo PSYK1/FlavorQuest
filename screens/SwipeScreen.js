@@ -94,24 +94,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    flex: 1,
-    width: 200,
-    height: 200,
-    resizeMode: "contain",
+    width: 100,
+    height: 100,
   },
   options: {
     width: "100%",
     height: "100%",
-    paddingBottom: "10%",
     flexDirection: "row",
-    position: "absolute",
-    justifyContent: "space-around",
-    alignItems: "flex-end",
   },
   link: {
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
+    width: "50%",
     height: "100%",
   },
 });

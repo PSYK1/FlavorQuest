@@ -7,6 +7,7 @@ import Signup from "./screens/Signup";
 import OnSignup from "./screens/OnSignup";
 import Cooking from "./screens/Cooking";
 import Restaurants from "./screens/Restaurants";
+import SwipeScreen from "./screens/SwipeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,11 +15,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={SwipeScreen} />
+
+        {/* <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />
         <Stack.Screen options={{ headerShown: false }} name="OnSignup" component={OnSignup} />
         <Stack.Screen options={{ headerShown: false }} name="Cooking" component={Cooking} />
-        <Stack.Screen options={{ headerShown: false }} name="Restaurants" component={Restaurants} />
+        <Stack.Screen options={{ headerShown: false }} name="Restaurants" component={Restaurants} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
