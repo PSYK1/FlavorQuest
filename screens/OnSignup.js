@@ -7,9 +7,7 @@ export default function OnSignup({ route }) {
 
   console.log(FIREBASE_AUTH.currentUser);
 
-  return (
-    <SwipeScreen likeDislikeList={likeDislikeList} index={index}></SwipeScreen>
-  );
+  return <SwipeScreen likeDislikeList={likeDislikeList} index={index}></SwipeScreen>;
 }
 
 const styles = StyleSheet.create({

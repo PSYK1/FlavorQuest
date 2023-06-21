@@ -14,31 +14,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Signup"
-          component={Signup}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OnSignup"
-          component={OnSignup}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Cooking"
-          component={Cooking}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Restaurants"
-          component={Restaurants}
-        />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+        <Stack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />
+        <Stack.Screen options={{ headerShown: false }} name="OnSignup" component={OnSignup} />
+        <Stack.Screen options={{ headerShown: false }} name="Cooking" component={Cooking} />
+        <Stack.Screen options={{ headerShown: false }} name="Restaurants" component={Restaurants} />
       </Stack.Navigator>
     </NavigationContainer>
   );

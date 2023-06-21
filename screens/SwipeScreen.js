@@ -11,6 +11,7 @@ export default function SwipeScreen({ likeDislikeList, index }) {
       <Image style={styles.image} source={likeDislikeList[index].loc}></Image>
       <View style={styles.options}>
         <TouchableOpacity
+          style={styles.link}
           onPress={() => {
             likeDislikeList[index].like = -1;
             if (index === likeDislikeList.length - 1) {
@@ -39,9 +40,10 @@ export default function SwipeScreen({ likeDislikeList, index }) {
             console.log(likeDislikeList);
           }}
         >
-          <Image source={require("../assets/images/thumbsDown.png")}></Image>
+          <Image style={styles.image} source={require("../assets/images/thumbsDown.png")}></Image>
         </TouchableOpacity>
         <TouchableOpacity
+          style={styles.link}
           onPress={() => {
             likeDislikeList[index].like = 1;
             if (index === likeDislikeList.length - 1) {
@@ -68,7 +70,9 @@ export default function SwipeScreen({ likeDislikeList, index }) {
             console.log(likeDislikeList);
           }}
         >
-          <Image source={require("../assets/images/like.png")}></Image>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={require("../assets/images/like.png")}></Image>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -82,9 +86,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#000000",
   },
-  image: {
-    height: "100%",
+  imageContainer: {
     width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    flex: 1,
+    width: 200,
+    height: 200,
+    resizeMode: "contain",
   },
   options: {
     width: "100%",
@@ -94,5 +107,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "space-around",
     alignItems: "flex-end",
+  },
+  link: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
 });
